@@ -1,12 +1,23 @@
 import { MongoClient } from "mongodb";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 let db;
 async function connectToDB(cb) {
-    const url = "mongodb://localhost:27017"
+    // Use your MongoDB Atlas connection string here
+    const url = 'mongodb+srv://krishna:1710800@cluster0.xjo2wzd.mongodb.net/vvhack?retryWrites=true&w=majority'; // Changed to use consistent single quotes
+    
     const client = new MongoClient(url);
-    await client.connect();
-    db = client.db("vvhack");
-    cb();
+    
+    try {
+        await client.connect();
+        db = client.db("vvhack");
+        console.log("Connected to MongoDB Atlas");
+        cb();
+    } catch (error) {
+        console.error('Error connecting to MongoDB:', error);
+    }
 }
 
 // connectToDB()
